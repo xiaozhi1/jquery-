@@ -22,6 +22,9 @@
         width: 300px;
         overflow: hidden;
     }
+    .red {
+        color: red;
+    }
 </style>
 <body>
     <div class="window">
@@ -31,25 +34,49 @@
             <img src="https://www.what-dog.net/Images/faces2/scroll004.jpg" width=300>
         </div>
     </div>
-    <button id="p1">第一张</button>
-    <button id="p2">第二张</button>
-    <button id="p3">第三张</button>
+    <span id=buttons>
+        <span>第1张</span>
+        <span>第2张</span>
+        <span>第3张</span>
+    </span>
 </body>
 <script>
-    $(p1).on('click', function () {
-        $(images).css({
-            transform: 'translateX(0)'
+    var allButtons = $('#buttons > span')
+    for (let i = 0; i < allButtons.length; i++) {
+        $(allButtons[i]).on('click', function (x) {
+            var index = $(x.currentTarget).index()
+            var p = index * -300
+            $('#images').css({
+                transform: 'translateX(' + p + 'px)'
+            })
+            n = index
+            allButtons.eq(n)
+                .addClass('red')
+                .siblings('.red').removeClass('red')
         })
+    }
+    var n = 0;
+    var size = allButtons.length
+    allButtons.eq(n % size).trigger('click')
+        .addClass('red')
+        .siblings('.red').removeClass('red')
+    //eq不用在allButtons前加$就能用了，  allButtons还是dom对象,不是jq对象，  eq会找出对应的dom，并把对应的dom封装成jQuery对象
+    var timerId = setInterval(() => {
+        n += 1
+        allButtons.eq(n % size).trigger('click')
+            .addClass('red')
+            .siblings('.red').removeClass('red')
+    }, 1000)
+    $('.window').on('mouseenter', function () {
+        window.clearInterval(timerId)
     })
-    $(p2).on('click', function () {
-        $(images).css({
-            transform: 'translateX(-300px)'
-        })
-    })
-    $(p3).on('click', function () {
-        $(images).css({
-            transform: 'translateX(-600px)'
-        })
+    $('.window').on('mouseleave', function () {
+        timerId = setInterval(() => {
+            n += 1
+            allButtons.eq(n % size).trigger('click')
+                .addClass('red')
+                .siblings('.red').removeClass('red')
+        }, 1000)
     })
 </script>
 
