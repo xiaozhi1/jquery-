@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>jquery-slide</title>
+
+</head>
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<style>
+    .images {
+        display: flex;
+        align-items: flex-start;
+        transition: all 0.5s;
+        border: 1px solid red;
+    }
+    .images>img {
+        /* visibility: top; */
+    }
+    .window {
+        border: 1px solid black;
+        width: 300px;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <div class="window">
+        <div class="images" id=images>
+            <img src="https://shopmarijuana.com/wp-content/uploads/2016/04/black-dog-led-phytomax-600-600x600.jpg" width=300 alt="">
+            <img src="https://gfp-2a3tnpzj.stackpathdns.com/wp-content/uploads/2016/07/Bernese-Mountain-Dog-600x600.jpg" width=300>
+            <img src="https://www.what-dog.net/Images/faces2/scroll004.jpg" width=300>
+        </div>
+    </div>
+    <button id="p1">第一张</button>
+    <button id="p2">第二张</button>
+    <button id="p3">第三张</button>
+</body>
+<script>
+    $(p1).on('click', function () {
+        $(images).css({
+            transform: 'translateX(0)'
+        })
+    })
+    $(p2).on('click', function () {
+        $(images).css({
+            transform: 'translateX(-300px)'
+        })
+    })
+    $(p3).on('click', function () {
+        $(images).css({
+            transform: 'translateX(-600px)'
+        })
+    })
+</script>
+
+</html>
