@@ -42,42 +42,47 @@
 </body>
 <script>
     var allButtons = $('#buttons > span')
-    for (let i = 0; i < allButtons.length; i++) {
-        $(allButtons[i]).on('click', function (x) {
-            var index = $(x.currentTarget).index()
-            var p = index * -300
-            $('#images').css({
-                transform: 'translateX(' + p + 'px)'
-            })
-            n = index
-            allButtons.eq(n)
-                .addClass('red')
-                .siblings('.red').removeClass('red')
-        })
-    }
-    var n = 0;
-    var size = allButtons.length
-    allButtons.eq(n % size).trigger('click')
-        .addClass('red')
-        .siblings('.red').removeClass('red')
-    //eq不用在allButtons前加$就能用了，  allButtons还是dom对象,不是jq对象，  eq会找出对应的dom，并把对应的dom封装成jQuery对象
-    var timerId = setInterval(() => {
-        n += 1
-        allButtons.eq(n % size).trigger('click')
-            .addClass('red')
-            .siblings('.red').removeClass('red')
-    }, 1000)
-    $('.window').on('mouseenter', function () {
-        window.clearInterval(timerId)
+for (let i = 0; i < allButtons.length; i++) {
+  $(allButtons[i]).on('click', function(x) {
+    var index = $(x.currentTarget).index()
+    var p = index * -300
+    $('#images').css({
+      transform: 'translateX(' + p + 'px)'
     })
-    $('.window').on('mouseleave', function () {
-        timerId = setInterval(() => {
-            n += 1
-            allButtons.eq(n % size).trigger('click')
-                .addClass('red')
-                .siblings('.red').removeClass('red')
-        }, 1000)
-    })
+    n = index
+    activeButton(allButtons.eq(n))
+  })
+}
+var n = 0;
+var size = allButtons.length
+playSlide(n % size)
+
+var timerId = setTimer()
+
+function activeButton($button) {
+  //     allButtons.eq(n % size).trigger('click')
+  //      $button.trigger('click')
+  $button //trigger('click')单独拿出来，直接在外面
+    .addClass('red')
+    .siblings('.red').removeClass('red')
+}
+function playSlide(index) {
+  allButtons.eq(index).trigger('click')
+    //   activeButton(allButtons.eq(index))   不需要激活了  click会激活的
+}
+function setTimer() {
+  return setInterval(() => {
+    n += 1
+    playSlide(n % size)
+  }, 1500)
+}
+
+$('.window').on('mouseenter', function() {
+  window.clearInterval(timerId)
+})
+$('.window').on('mouseleave', function() {
+  timerId = setTimer()
+})
 </script>
 
 </html>
